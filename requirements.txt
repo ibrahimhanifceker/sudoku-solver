@@ -3,5 +3,4 @@ pydantic
 opencv-python
 numpy
 Pillow
-collections
 uvicorn
