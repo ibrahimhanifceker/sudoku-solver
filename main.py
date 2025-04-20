@@ -81,6 +81,7 @@ app = FastAPI()
 
 @app.post("/")
 async def index(file: UploadFile = File(...)):
+    print("bbb")
     with open(f"uploads/{file.filename}", "wb") as buffer:
         buffer.write(await file.read())
 
@@ -188,10 +189,13 @@ async def index(file: UploadFile = File(...)):
                 #print(rowind, colind)
                 arr[rowind][colind] = digit
 
+    filled = [[0] * 9 for i in range(9)]
+
     
     for i in range(9):
         for j in range(9):
             if arr[i][j] != 0:
+                filled[i][j] = 1
                 rows[i][arr[i][j]] = 1
                 cols[j][arr[i][j]] = 1
                 sqrs[(i // 3) * 3 + j // 3][arr[i][j]] = 1
@@ -207,6 +211,8 @@ async def index(file: UploadFile = File(...)):
     for i in range(9):
         response[str(i)] = dict()
         for j in range(9):
-            response[str(i)][str(j)] = solution[i][j]
+            response[str(i)][str(j)] = dict()
+            response[str(i)][str(j)]['val'] = solution[i][j]
+            response[str(i)][str(j)]['filled'] = filled[i][j]
     
     return response
